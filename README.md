@@ -38,11 +38,9 @@ npm install react-native-gesture-handler
 npm install @birdwingo/react-native-instagram-stories
 ```
 
-## Integration with Storage, Flashlist and Video
+## Integration with Storage and Video
 
 The component offers an option to save and track the progress of seen stories using `saveProgress`. If you use `saveProgress`, please make sure you have `@react-native-async-storage/async-storage` installed.
-
-If you have installed Flashlist, it will be automatically used for avatars list.
 
 If you use video in your stories, please make sure you have `react-native-video` installed.
 
@@ -59,11 +57,11 @@ const YourComponent = () => {
 
   // to use public methods:
   const ref = useRef( null ); // if using typescript - useRef<InstagramStoriesPublicMethods>( null )
-
-  const stories = [{ // if using typescript - const stories: InstagramStoriesProps['stories']
+  
+  const stories = [{
     id: 'user1',
     name: 'User 1',
-    avatarSource: { uri: 'user1-profile-image-url', },
+    imgUrl: 'user1-profile-image-url',
     stories: [
       { id: 'story1', source: { uri: 'story1-image-url' } },
       { id: 'story2', source: { uri: 'story1-video-url' }, mediaType: 'video' },
@@ -99,7 +97,7 @@ export default YourComponent;
  `avatarSeenBorderColors`   | string[]                                     | [ '#2A2A2C' ]                              | An array of string colors representing the border colors of seen story avatars.
  `avatarSize`               | number                                       | 60                                         | The size of the story avatars.
  `storyAvatarSize`          | number                                       | 25                                         | The size of the avatars shown in the header of each story.
- `avatarListContainerStyle` | ScrollViewProps['contentContainerStyle'], FlashListProps |                                | Additional styles for the avatar scroll list container.
+ `avatarListContainerStyle` | ScrollViewProps['contentContainerStyle']     |                                            | Additional styles for the avatar scroll list container.
  `avatarListContainerProps` | ScrollViewProps                              |                                            | Props to be passed to the avatar list ScrollView component.
  `containerStyle`           | ViewStyle                                    |                                            | Additional styles for the story container.
  `textStyle`                | TextStyle                                    |                                            | Additional styles for text elements.
@@ -124,7 +122,6 @@ export default YourComponent;
  `progressContainerStyle`   | ViewStyle                                    |                                            | Additional styles for the story progress container
  `hideAvatarList`           | boolean                                      | false                                      | A boolean indicating whether to hide avatar scroll list
  `hideElementsOnLongPress`  | boolean                                      | false                                      | A boolean indicating whether to hide all elements when story is paused by long press
- `hideOverlayOnLongPress`   | `boolean`                                    | The value of `hideElementOnLongPress`      | Controls whether the image overlay hides when `hideElementOnLongPress` is set to `true`. If `true`, the overlay will hide along with other elements on long press. If `false`, only the other elements (e.g., header, progress bar) will hide, and the overlay will remain visible.
  `loopingStories`           | `'none'` | `'onlyLast'` | `'all'`            | `'none'`                                   | A string indicating whether to continue stories after last story was shown. If set to `'none'` modal will be closed after all stories were played, if set to `'onlyLast'` stories will loop on last user only after all stories were played. If set to `'all'` stories will play from beginning after all stories were played.
  `statusBarTranslucent`     | boolean                                      | false                                      | A property passed to React native Modal component
  `footerComponent`          | ReactNode                                    |                                            | A custom component, such as a floating element, that can be added to the modal.
@@ -147,11 +144,9 @@ export default YourComponent;
  `show`                | ( id?: string ) => void                                                                          | Show stories modal with provided story `id`. If `id` is not provided, will be shown first story
  `pause`               | () => void                                                                                       | Pause story
  `resume`              | () => void                                                                                       | Resume story
- `isPaused`            | () => boolean                                                                                    | Returns true if story is paused
  `goToPreviousStory`   | () => void                                                                                       | Goes to previous story item
  `goToNextStory`       | () => void                                                                                       | Goes to next story item
  `getCurrentStory`     | () => {userId?: string, storyId?: string}                                                        | Returns current userId and storyId
- `goToSpecificStory`   | ( userId: string, index: number ) => void                                                        | Change current playing story to defined index if index not exist then start playing first story
 
 ## Types
 

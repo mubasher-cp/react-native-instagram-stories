@@ -34,7 +34,6 @@ const StoryModal = forwardRef<StoryModalPublicMethods, StoryModalProps>( ( {
   const isLongPress = useSharedValue( false );
   const hideElements = useSharedValue( false );
   const lastViewed = useSharedValue<{ [key: string]:number }>( {} );
-  const firstRender = useSharedValue( true );
 
   const userIndex = useDerivedValue( () => Math.round( x.value / WIDTH ) );
   const storyIndex = useDerivedValue( () => stories[userIndex.value]?.stories.findIndex(
@@ -266,7 +265,6 @@ const StoryModal = forwardRef<StoryModalPublicMethods, StoryModalProps>( ( {
 
       ctx.x = x.value;
       ctx.userId = userId.value;
-      paused.value = true;
 
     },
     onActive: ( e, ctx ) => {
@@ -342,7 +340,6 @@ const StoryModal = forwardRef<StoryModalPublicMethods, StoryModalProps>( ( {
       ctx.vertical = false;
       ctx.userId = undefined;
       hideElements.value = false;
-      paused.value = false;
 
     },
   } );
@@ -423,11 +420,9 @@ const StoryModal = forwardRef<StoryModalPublicMethods, StoryModalProps>( ( {
       paused.value = false;
 
     },
-    isPaused: () => paused.value,
     getCurrentStory: () => ( { userId: userId.value, storyId: currentStory.value } ),
     goToPreviousStory: toPreviousStory,
     goToNextStory: toNextStory,
-    goToSpecificStory: ( newUserId, index ) => scrollTo( newUserId, true, false, undefined, index ),
   } ), [ userId.value, currentStory.value ] );
 
   useEffect( () => {
@@ -443,13 +438,11 @@ const StoryModal = forwardRef<StoryModalPublicMethods, StoryModalProps>( ( {
 
       y.value = withTiming( 0, { duration: modalAnimationDuration } );
 
-    } else if ( currentStory.value !== undefined && !firstRender.value ) {
+    } else if ( currentStory.value !== undefined ) {
 
       onHide?.( currentStory.value );
 
     }
-
-    firstRender.value = false;
 
   }, [ visible ] );
 

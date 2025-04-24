@@ -128,20 +128,3 @@ jest.mock('./src/components/Image/video', () => {
     return <View testID="storyVideo" />;
   };
 });
-
-jest.mock('@shopify/flash-list', () => {
-
-  const React = require('react');
-  const { ScrollView } = require('react-native');
-
-  return {FlashList: ({ data, renderItem, ...props }) => {
-
-    return (
-      <ScrollView {...props}>
-        {data.map(( item, index ) => renderItem({ item, index }))}
-      </ScrollView>
-    )
-
-  }};
-
-});

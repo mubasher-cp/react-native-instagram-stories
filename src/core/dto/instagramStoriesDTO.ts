@@ -4,10 +4,13 @@ import {
   ImageStyle,
   ScrollViewProps, TextStyle, ViewStyle, TextProps,
 } from 'react-native';
-import { FlashListProps } from '@shopify/flash-list';
 
 export interface StoryItemProps {
   id: string;
+  /**
+    * @deprecated Use {@link source} instead (set source to {uri: 'your url'}).
+  */
+  sourceUrl?: string;
   source: ImageProps['source'];
   mediaType?: 'image' | 'video';
   animationDuration?: number;
@@ -17,8 +20,12 @@ export interface StoryItemProps {
 
 export interface InstagramStoryProps {
   id: string;
-  avatarSource: ImageProps['source'];
-  renderAvatar?: ( seen: boolean ) => ReactNode;
+  /**
+    * @deprecated Use {@link avatarSource} instead (set avatarSource to {uri: 'your url'}).
+  */
+  imgUrl?: string;
+  avatarSource?: ImageProps['source'];
+  renderAvatar?: () => ReactNode;
   renderStoryHeader?: () => ReactNode;
   onStoryHeaderPress?: () => void;
   name?: string;
@@ -32,8 +39,16 @@ export interface InstagramStoriesProps {
   avatarSeenBorderColors?: string[];
   avatarSize?: number;
   storyAvatarSize?: number;
+  /**
+    * @deprecated Use {@link avatarListContainerStyle} instead.
+  */
+  listContainerStyle?: ScrollViewProps['contentContainerStyle'];
   avatarListContainerStyle?: ScrollViewProps['contentContainerStyle'];
-  avatarListContainerProps?: ScrollViewProps | Partial<FlashListProps<InstagramStoryProps>>;
+  /**
+    * @deprecated Use {@link avatarListContainerProps} instead.
+  */
+  listContainerProps?: ScrollViewProps;
+  avatarListContainerProps?: ScrollViewProps;
   containerStyle?: ViewStyle;
   textStyle?: TextStyle;
   animationDuration?: number;
@@ -50,7 +65,7 @@ export interface InstagramStoriesProps {
   storyAnimationDuration?: number;
   mediaContainerStyle?: ViewStyle;
   imageStyles?: ImageStyle;
-  imageProps?: Omit<ImageProps, 'source'>;
+  imageProps?: ImageProps;
   isVisible?: boolean;
   headerStyle?: ViewStyle;
   headerContainerStyle?: ViewStyle;
@@ -58,11 +73,8 @@ export interface InstagramStoriesProps {
   hideAvatarList?: boolean;
   imageOverlayView?: ReactNode;
   hideElementsOnLongPress?: boolean;
-  hideOverlayViewOnLongPress?: boolean;
   loopingStories?: 'none' | 'all' | 'onlyLast';
   statusBarTranslucent?: boolean;
-  footerComponent?: ReactNode;
-  avatarBorderRadius?: number;
   onShow?: ( id: string ) => void;
   onHide?: ( id: string ) => void;
   onSwipeUp?: ( userId?: string, storyId?: string ) => void;
@@ -82,5 +94,4 @@ export type InstagramStoriesPublicMethods = {
   goToPreviousStory: () => void;
   goToNextStory: () => void;
   getCurrentStory: () => { userId?: string, storyId?: string };
-  goToSpecificStory: ( userId: string, index?: number ) => void;
 };

@@ -15,6 +15,7 @@ const AnimatedImage = Animated.createAnimatedComponent( Image );
 const StoryAvatar: FC<StoryAvatarProps> = ( {
   id,
   avatarSource,
+  imgUrl,
   name,
   stories,
   loadingStory,
@@ -26,16 +27,15 @@ const StoryAvatar: FC<StoryAvatarProps> = ( {
   showName,
   nameTextStyle,
   nameTextProps,
-  renderAvatar,
-  avatarBorderRadius,
 } ) => {
 
   const loaded = useSharedValue( false );
   const isLoading = useDerivedValue( () => loadingStory.value === id || !loaded.value );
-  const seen = useDerivedValue(
-    () => seenStories.value[id] === stories[stories.length - 1]?.id,
-  );
-  const loaderColor = useDerivedValue( () => ( seen.value ? seenColors : colors ) );
+  const loaderColor = useDerivedValue( () => (
+    seenStories.value[id] === stories[stories.length - 1]?.id
+      ? seenColors
+      : colors
+  ) );
 
   const onLoad = () => {
 
@@ -47,29 +47,17 @@ const StoryAvatar: FC<StoryAvatarProps> = ( {
     { opacity: withTiming( isLoading.value ? 0.5 : 1 ) }
   ) );
 
-  if ( renderAvatar ) {
-
-    return renderAvatar( seen.value );
-
-  }
-
-  if ( !avatarSource ) {
-
-    return null;
-
-  }
-
   return (
     <View style={AvatarStyles.name}>
       <View style={AvatarStyles.container}>
         <TouchableOpacity activeOpacity={0.6} onPress={onPress} testID={`${id}StoryAvatar${stories.length}Story`}>
           <Loader loading={isLoading} color={loaderColor} size={size + AVATAR_OFFSET * 2} />
           <AnimatedImage
-            source={avatarSource}
+            source={avatarSource ?? { uri: imgUrl }}
             style={[
               AvatarStyles.avatar,
               imageAnimatedStyles,
-              { width: size, height: size, borderRadius: avatarBorderRadius ?? ( size / 2 ) },
+              { width: size, height: size, borderRadius: size / 2 },
             ]}
             testID="storyAvatarImage"
             onLoad={onLoad}
