@@ -219,6 +219,7 @@ const InstagramStories = forwardRef<
         {!hideAvatarList && (
           <ScrollView
             horizontal
+            showsHorizontalScrollIndicator={false}
             {...listContainerProps}
             {...avatarListContainerProps}
             contentContainerStyle={[
@@ -235,7 +236,7 @@ const InstagramStories = forwardRef<
                     style={[styles.container]}
                     onPress={() => onPress(story.id)}
                   >
-                    <TouchableOpacity
+                    <View
                       hitSlop={{
                         top: 10,
                         bottom: 10,
@@ -245,7 +246,7 @@ const InstagramStories = forwardRef<
                       style={[styles.container, styles.iconCon]}
                     >
                       <Image
-                        source={{ uri: story?.avatarSource?.uri }}
+                        source={story?.avatarSource}
                         resizeMode={"cover"}
                         style={[
                           {
@@ -255,7 +256,7 @@ const InstagramStories = forwardRef<
                           styles.icon,
                         ]}
                       />
-                    </TouchableOpacity>
+                    </View>
                     <View style={{ maxWidth: 104 }}>
                       <Text
                         numberOfLines={2}
